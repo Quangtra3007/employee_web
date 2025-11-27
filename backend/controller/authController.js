@@ -1,5 +1,5 @@
-import User from "../model/User";
-const bcrypt = require('bcrypt');
+import {User} from "../model/User.js";
+import bcrypt from  'bcrypt';
 import jwt from 'jsonwebtoken';
 const login = async(req, res)=> {
     try {
@@ -8,13 +8,16 @@ const login = async(req, res)=> {
         if(!user) {
             return res.status(404).json({success:false,error: "User not found"});
         }
-        const isMatch = bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
         if(!isMatch) {
             return res.status(404).json({success:false,error: "Wrong password"});
         }
-        const =token = JsonW
+        const token = jwt.sign({id: user._id, role: user.role}, 
+            process.env.JWT_KEY, {expiresIn: '1d'}
+        );
+        res.status(200).json({success:true, token, user: {__id: user_id, name: user.name, role: user.role, token}});
     } catch (error) {
-        res.status(500).json({success:false,error: "Internal server error"});
+        res.status(500).json({success:false, error: error.message});
     }
 }
 export {login};

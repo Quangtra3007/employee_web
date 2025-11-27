@@ -1,6 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import authRoute from './route/auth.js'
+import connectDB from './db/db.js'
+
+connectDB();
 const app = express()
 app.use(cors())
 app.use(express.json());

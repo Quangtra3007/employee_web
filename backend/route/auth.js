@@ -3,6 +3,6 @@ import {login} from '../controller/authController.js';
 
 const router = express.Router();
  
-router.post('/login', authlogin);
+router.post('/login', login);
 
 export default router;
